@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\Protos\common\common.proto" GrpcServices="None" ProtoRoot="..\Protos" Link="Protos\common.proto" />
-    <Protobuf Include="..\Protos\authentication\authentication.proto" GrpcServices="Server" ProtoRoot="..\Protos" Link="Protos\authentication.proto" />
+    <Protobuf Include="..\Protos\common\common.proto" GrpcServices="Server" ProtoRoot="..\Protos" Link="Protos\common\common.proto" />
+    <Protobuf Include="..\Protos\authentication\authentication.proto" GrpcServices="Server" ProtoRoot="..\Protos" Link="Protos\authentication\authentication.proto" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Google.Protobuf" Version="3.22.1" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.52.0" />
@@ -20,6 +21,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
+    <PackageReference Include="Npgsql" Version="8.0.0-preview.2" />
   </ItemGroup>
 
 </Project>
