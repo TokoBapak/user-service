@@ -2,10 +2,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using UserService.Helpers;
 
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
+builder.Services.AddGrpcReflection();
 
 builder.Services.AddAuthorization(options =>
 {
@@ -34,26 +36,16 @@ var app = builder.Build();
 
 app.MapGet("/generateJwtToken", context =>
 {
-    return context.Response.WriteAsync(GenerateJwtToken(context.Request.Query["name"]!));
+    var token = context.Request.Query["name"].ToString().GenerateJwtToken(SecurityKey);
+    return context.Response.WriteAsync(JwtTokenHandler.WriteToken(token));
 });
 
+app.MapGrpcService<AuthenticationService>();
+app.MapGrpcReflectionService();
 app.Run();
-
-static string GenerateJwtToken(string name)
-{
-    if (string.IsNullOrEmpty(name))
-    {
-        throw new InvalidOperationException("Name is not specified.");
-    }
-
-    var claims = new[] { new Claim(ClaimTypes.Name, name) };
-    var credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
-    var token = new JwtSecurityToken("ExampleServer", "ExampleClients", claims, expires: DateTime.Now.AddSeconds(60), signingCredentials: credentials);
-    return JwtTokenHandler.WriteToken(token);
-}
 
 public partial class Program
 {
-    private static readonly JwtSecurityTokenHandler JwtTokenHandler = new JwtSecurityTokenHandler();
-    private static readonly SymmetricSecurityKey SecurityKey = new SymmetricSecurityKey(Guid.NewGuid().ToByteArray());
+    private static readonly JwtSecurityTokenHandler JwtTokenHandler = new ();
+    private static readonly SymmetricSecurityKey SecurityKey = new (Guid.NewGuid().ToByteArray());
 }

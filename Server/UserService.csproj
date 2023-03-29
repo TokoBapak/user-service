@@ -7,13 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\Protos\common\common.proto" GrpcServices="None" ProtoRoot="..\Protos" />
-    <Protobuf Include="..\Protos\authentication\authentication.proto" GrpcServices="Server" ProtoRoot="..\Protos" />
+    <Protobuf Include="..\Protos\common\common.proto" GrpcServices="None" ProtoRoot="..\Protos" Link="Protos\common.proto" />
+    <Protobuf Include="..\Protos\authentication\authentication.proto" GrpcServices="Server" ProtoRoot="..\Protos" Link="Protos\authentication.proto" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.22.1" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+    <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.52.0" />
     <PackageReference Include="Grpc.Tools" Version="2.53.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
