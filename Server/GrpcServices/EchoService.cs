@@ -1,6 +1,6 @@
-﻿using Dapper;
+﻿/*using Dapper;
 using Grpc.Core;
-using TokoBapak.Protobuf.CommonSchema;
+using TokoBapak.Protobuf.UserSchema;
 using UserService.DB;
 
 namespace UserService.GrpcServices;
@@ -20,4 +20,4 @@ public class GrpcEchoService : EchoService.EchoServiceBase
         var uuid = await con.QuerySingleAsync<Guid>("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\"; SELECT uuid_generate_v4()");
         return new EchoResponse{ Response = $"{request.Request} {uuid}"};
     }
-}
+}*/

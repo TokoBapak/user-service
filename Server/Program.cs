@@ -1,9 +1,6 @@
-using System.Data;
 using Microsoft.IdentityModel.Tokens;
 using UserService.Authentication;
 using UserService.DB;
-using Dapper;
-using UserService.GrpcServices;
 
 SymmetricSecurityKey SecurityKey = new (Guid.NewGuid().ToByteArray());
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +16,7 @@ var app = builder.Build();
 
 app.MapGet("/generateJwtToken", JwtTokenGenerator.Generate(SecurityKey));
 app.MapGrpcService<AuthenticationService>();
-app.MapGrpcService<GrpcEchoService>();
+//app.MapGrpcService<GrpcEchoService>();
 app.MapGrpcReflectionService();
 
 app.Run();
