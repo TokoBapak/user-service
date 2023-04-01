@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.IdentityModel.Tokens;
 using UserService.Authentication;
 using UserService.DB;
@@ -11,12 +12,12 @@ builder.Services.AddGrpcReflection();
 builder.Services.AddAuthorization(options => options.AddJwtPolicy());
 builder.Services.AddAuthentication().AddJwtBearer(options => options.SetupValidationsParams(SecurityKey));
 builder.Services.AddScoped<DbConnFactory>();
+builder.Services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
 
 var app = builder.Build();
 
-app.MapGet("/generateJwtToken", JwtTokenGenerator.Generate(SecurityKey));
+//app.MapGet("/generateJwtToken", JwtTokenGenerator.Generate(SecurityKey));  commented for now, will revisit soon
 app.MapGrpcService<AuthenticationService>();
-//app.MapGrpcService<GrpcEchoService>();
 app.MapGrpcReflectionService();
 
 app.Run();

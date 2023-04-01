@@ -8,12 +8,14 @@
 
   <ItemGroup>
     <Protobuf Include="..\Protos\common\common.proto" GrpcServices="None" ProtoRoot="..\Protos" Link="Protos\common\common.proto" />
-    <Protobuf Include="..\Protos\authentication\authentication.proto" GrpcServices="Server" ProtoRoot="..\Protos" Link="Protos\authentication\authentication.proto" />
-    <Protobuf Include="..\Protos\user\user.proto" GrpcServices="Server" ProtoRoot="..\Protos" Link="Protos\user\user.proto" />
+    <Protobuf Include="..\Protos\authentication\authentication.proto" GrpcServices="Both" ProtoRoot="..\Protos" Link="Protos\authentication\authentication.proto" />
+    <Protobuf Include="..\Protos\user\user.proto" GrpcServices="Both" ProtoRoot="..\Protos" Link="Protos\user\user.proto" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="FluentValidation" Version="11.5.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
     <PackageReference Include="Google.Protobuf" Version="3.22.1" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.52.0" />
@@ -23,6 +25,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
     <PackageReference Include="Npgsql" Version="8.0.0-preview.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastructures" />
   </ItemGroup>
 
 </Project>

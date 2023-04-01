@@ -1,4 +1,6 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿// commented for now but might be useful soon
+/*
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 
@@ -24,3 +26,4 @@ public static class JwtTokenGenerator
         };
     }
 }
+*/
