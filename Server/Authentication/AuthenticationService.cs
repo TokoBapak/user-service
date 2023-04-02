@@ -7,23 +7,24 @@ using UserService.Authentication;
 public class AuthenticationService : Authentication.AuthenticationBase
 {
     private readonly LoginRequestValidator _loginRequestValidator;
-    
+    private const int DefaultAttempts = 2;
+
     public AuthenticationService(LoginRequestValidator loginRequestValidator)
     {
         _loginRequestValidator = loginRequestValidator;
     }
-    
+
     public override async Task<LoginResponse> Login(LoginRequest request, ServerCallContext context)
     {
         var validationResult = _loginRequestValidator.Validate(request);
         if (!validationResult.IsValid)
         {
             return _loginRequestValidator.ToLoginResponse(
-                validationResult, 
-                2 //TODO: implement logic for attempts calculation
+                validationResult,
+                DefaultAttempts //TODO: implement logic for attempts calculation
             );
         }
-        
+
         return await Task.FromResult(new LoginResponse
         {
             TokenSetReply = new TokenSetReply{ AccessToken = "dummy_access_token" }
