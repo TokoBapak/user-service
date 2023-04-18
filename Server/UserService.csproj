@@ -27,8 +27,4 @@
     <PackageReference Include="Npgsql" Version="8.0.0-preview.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Infrastructures" />
-  </ItemGroup>
-
 </Project>

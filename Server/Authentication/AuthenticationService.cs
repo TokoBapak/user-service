@@ -19,10 +19,7 @@ public class AuthenticationService : Authentication.AuthenticationBase
         var validationResult = _loginRequestValidator.Validate(request);
         if (!validationResult.IsValid)
         {
-            return _loginRequestValidator.ToLoginResponse(
-                validationResult,
-                DefaultAttempts //TODO: implement logic for attempts calculation
-            );
+            return validationResult.ToLoginResponse(DefaultAttempts);
         }
 
         return await Task.FromResult(new LoginResponse

@@ -11,10 +11,13 @@ public class LoginRequestValidator: AbstractValidator<LoginRequest>
         RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Email is required.");
         RuleFor(x => x.Password).NotEmpty().WithMessage("Password is required.");
     }
+}
 
-    public LoginResponse ToLoginResponse(ValidationResult validationResult, int attemptsRemaining)
+public static class ValidationResultExtensions
+{
+    public static LoginResponse ToLoginResponse(this ValidationResult result, int attemptsRemaining)
     {
-        var errorDescriptors = validationResult.Errors.Select(e => new LoginErrorResponse.Types.ErrorDescriptor
+        var errorDescriptors = result.Errors.Select(e => new LoginErrorResponse.Types.ErrorDescriptor
         {
             Message = e.ErrorMessage,
             Field = e.PropertyName,
