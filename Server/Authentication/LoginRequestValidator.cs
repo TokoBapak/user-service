@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Collections.Immutable;
+using FluentValidation;
 using FluentValidation.Results;
 using TokoBapak.Protobuf.AuthenticationSchema;
 
@@ -15,7 +16,7 @@ public class LoginRequestValidator: AbstractValidator<LoginRequest>
 
 public static class ValidationResultExtensions
 {
-    public static LoginResponse ToLoginResponse(this ValidationResult result, int attemptsRemaining)
+    public static ImmutableList<LoginErrorResponse.Types.ErrorDescriptor> ToLoginResponse(this ValidationResult result)
     {
         var errorDescriptors = result.Errors.Select(e => new LoginErrorResponse.Types.ErrorDescriptor
         {
@@ -23,14 +24,6 @@ public static class ValidationResultExtensions
             Field = e.PropertyName,
             Rule = e.ErrorCode
         });
-
-        var errorResponse = new LoginErrorResponse
-        {
-            Descriptors = { errorDescriptors },
-            AttemptsRemaining = attemptsRemaining
-        };
-
-        var response = new LoginResponse { LoginErrorResponse = errorResponse };
-        return response;
+        return errorDescriptors.ToImmutableList();
     }
 }

@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using UserService.Authentication;
 using UserService.DB;
@@ -17,6 +18,9 @@ builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection(n
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 
+builder.Services.AddDbContext<AppDbContext>(options
+    => options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(ConnectionStrings.PostgreSql))));
+
 builder.Services.AddAuthorization(options => options.AddJwtPolicy());
 builder.Services.AddAuthentication().AddJwtBearer(options => options.SetupValidationsParams(SecurityKey));
 builder.Services.AddScoped<DbConnFactory>();
@@ -25,7 +29,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
 var app = builder.Build();
 
 //app.MapGet("/generateJwtToken", JwtTokenGenerator.Generate(SecurityKey));  commented for now, will revisit soon
-app.MapGrpcService<AuthenticationService>();
+app.MapGrpcService<AuthenticationGrpcService>();
 app.MapGrpcReflectionService();
 
 app.Run();
