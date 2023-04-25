@@ -15,7 +15,7 @@ public class GrpcTestFixture : IDisposable
         Server = new TestServer(new WebHostBuilder().ConfigureServices(services =>
         {
             services.AddGrpc();
-            services.AddSingleton<AuthenticationService>();
+            services.AddSingleton<AuthenticationGrpcService>();
             services.AddSingleton<LoginRequestValidator>();
             // Add other required services here.
         }).Configure(app =>
@@ -23,7 +23,7 @@ public class GrpcTestFixture : IDisposable
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<AuthenticationService>();
+                endpoints.MapGrpcService<AuthenticationGrpcService>();
             });
         }));
 

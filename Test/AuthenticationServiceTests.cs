@@ -1,7 +1,6 @@
 ﻿using TokoBapak.Protobuf.AuthenticationSchema;
 
 namespace UserService.Tests;
-using UserService;
 
 public class AuthenticationServiceTests : IClassFixture<GrpcTestFixture>
 {

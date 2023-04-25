@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Collections.Immutable;
+using FluentValidation;
 using FluentValidation.Results;
 using TokoBapak.Protobuf.AuthenticationSchema;
 
@@ -11,23 +12,18 @@ public class LoginRequestValidator: AbstractValidator<LoginRequest>
         RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Email is required.");
         RuleFor(x => x.Password).NotEmpty().WithMessage("Password is required.");
     }
+}
 
-    public LoginResponse ToLoginResponse(ValidationResult validationResult, int attemptsRemaining)
+public static class ValidationResultExtensions
+{
+    public static ImmutableList<LoginErrorResponse.Types.ErrorDescriptor> ToLoginResponse(this ValidationResult result)
     {
-        var errorDescriptors = validationResult.Errors.Select(e => new LoginErrorResponse.Types.ErrorDescriptor
+        var errorDescriptors = result.Errors.Select(e => new LoginErrorResponse.Types.ErrorDescriptor
         {
             Message = e.ErrorMessage,
             Field = e.PropertyName,
             Rule = e.ErrorCode
         });
-
-        var errorResponse = new LoginErrorResponse
-        {
-            Descriptors = { errorDescriptors },
-            AttemptsRemaining = attemptsRemaining
-        };
-
-        var response = new LoginResponse { LoginErrorResponse = errorResponse };
-        return response;
+        return errorDescriptors.ToImmutableList();
     }
 }
